@@ -1,3 +1,5 @@
+export type FilterOption = "title" | "genre";
+
 export interface BaseMovieProps {
   title: string;
   budget: number;
