@@ -33,11 +33,13 @@ const MovieHeader: React.FC<MovieDetailsProps> = (movie) => {
       <IconButton aria-label="go back">
         <ArrowBackIcon color="primary" fontSize="large" />
       </IconButton>
-      {favourite ? (
+      {
+      favourite ? (
         <Avatar sx={styles.avatar}>
           <FavoriteIcon />
         </Avatar>
-      ) : null}
+      ) : null
+      }
       <Typography variant="h4" component="h3">
         {movie.title}
         {"   "}
