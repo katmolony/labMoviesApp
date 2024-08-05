@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { MoviesContext } from "../contexts/moviesContext";
 import { useQueries } from "react-query";
@@ -9,6 +9,8 @@ import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
+import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
+import WriteReview from "../components/cardIcons/writeReview";
 
 const titleFiltering = {
   name: "title",
@@ -23,9 +25,10 @@ const genreFiltering = {
 
 const FavouriteMoviesPage: React.FC = () => {
   const { favourites: movieIds } = useContext(MoviesContext);
-  const { filterValues, setFilterValues, filterFunction } = useFiltering(
-    [titleFiltering, genreFiltering]
-  );
+  const { filterValues, setFilterValues, filterFunction } = useFiltering([
+    titleFiltering,
+    genreFiltering,
+  ]);
 
   // Create an array of queries and run them in parallel.
   const favouriteMovieQueries = useQueries(
@@ -45,25 +48,30 @@ const FavouriteMoviesPage: React.FC = () => {
   }
 
   const allFavourites = favouriteMovieQueries.map((q) => q.data);
-  const displayedMovies = allFavourites
-    ? filterFunction(allFavourites)
-    : [];
+  const displayedMovies = allFavourites ? filterFunction(allFavourites) : [];
 
   const changeFilterValues = (type: string, value: string) => {
     const changedFilter = { name: type, value: value };
     const updatedFilterSet =
-      type === "title" ? [changedFilter, filterValues[1]] : [filterValues[0], changedFilter];
+      type === "title"
+        ? [changedFilter, filterValues[1]]
+        : [filterValues[0], changedFilter];
     setFilterValues(updatedFilterSet);
   };
-
-  const toDo = () => true;
 
   return (
     <>
       <PageTemplate
         title="Favourite Movies"
         movies={displayedMovies}
-        selectFavourite={toDo}
+        action={(movie) => {
+          return (
+            <>
+              <RemoveFromFavourites {...movie} />
+              <WriteReview {...movie} />
+            </>
+          );
+        }}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
