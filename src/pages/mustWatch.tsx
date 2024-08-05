@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import PageTemplate from "../components/templateMovieListPage";
-import { BaseMovieProps } from "../types/interfaces";
-import { getUpcomingMovies } from "../api/tmdb-api";
+import { MoviesContext } from "../contexts/moviesContext";
+import { useQueries } from "react-query";
+import { getMovie } from "../api/tmdb-api";
+import Spinner from "../components/spinner";
 import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
-import { DiscoverUpcomingMovies } from "../types/interfaces";
-import { useQuery } from "react-query";
-import Spinner from "../components/spinner";
-import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
-import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
+import RemoveFromMustWatch from "../components/cardIcons/removeFromMustWatch";
 
 const titleFiltering = {
   name: "title",
@@ -24,23 +22,32 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const UpcomingMoviesPage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<
-    DiscoverUpcomingMovies,
-    Error
-  >("upcoming", getUpcomingMovies);
+const MustWatchMoviesPage: React.FC = () => {
+  const { mustWatch: movieIds } = useContext(MoviesContext);
   const { filterValues, setFilterValues, filterFunction } = useFiltering([
     titleFiltering,
     genreFiltering,
   ]);
 
+  // Create an array of queries and run them in parallel.
+  const mustWatchMovieQueries = useQueries(
+    movieIds.map((movieId) => {
+      return {
+        queryKey: ["movie", movieId],
+        queryFn: () => getMovie(movieId.toString()),
+      };
+    })
+  );
+
+  // Check if any of the parallel queries is still loading.
+  const isLoading = mustWatchMovieQueries.find((m) => m.isLoading === true);
+
   if (isLoading) {
     return <Spinner />;
   }
 
-  if (isError) {
-    return <h1>{error.message}</h1>;
-  }
+  const allMustWatch = mustWatchMovieQueries.map((q) => q.data);
+  const displayedMovies = allMustWatch ? filterFunction(allMustWatch) : [];
 
   const changeFilterValues = (type: string, value: string) => {
     const changedFilter = { name: type, value: value };
@@ -51,19 +58,16 @@ const UpcomingMoviesPage: React.FC = () => {
     setFilterValues(updatedFilterSet);
   };
 
-  const upcomingMovies = data ? data.results : [];
-  const displayedMovies = filterFunction(upcomingMovies);
-
   return (
     <>
       <PageTemplate
-        title="Upcoming Movies"
+        title="Must Watch Movies"
         movies={displayedMovies}
-        action={(movie: BaseMovieProps) => {
+        action={(movie) => {
           return (
             <>
-              <AddToFavouritesIcon {...movie} />
-              <AddToMustWatchIcon {...movie} />
+              <RemoveFromMustWatch {...movie} />
+              {/* <WriteReview {...movie} /> */}
             </>
           );
         }}
@@ -76,4 +80,5 @@ const UpcomingMoviesPage: React.FC = () => {
     </>
   );
 };
-export default UpcomingMoviesPage;
+
+export default MustWatchMoviesPage;
