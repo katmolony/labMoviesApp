@@ -75,6 +75,13 @@ export interface DiscoverMovies {
   results: BaseMovieProps[];
 }
 
+export interface DiscoverUpcomingMovies {
+  page: number;	
+  total_pages: number;
+  total_results: number;
+  results: BaseMovieProps[];
+}
+
 export interface Review {
   author: string,
   content: string,
