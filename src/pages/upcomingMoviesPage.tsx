@@ -76,4 +76,5 @@ const UpcomingMoviesPage: React.FC = () => {
     </>
   );
 };
+
 export default UpcomingMoviesPage;
