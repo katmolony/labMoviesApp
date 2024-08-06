@@ -21,10 +21,10 @@ const styles = {
   card: { maxWidth: 345 },
   media: { height: 500 },
   avatar: {
-    backgroundColor: "rgb(255, 0, 0)",
+    backgroundColor: "rgb(255, 0, 0)", // red for favourites
   },
   avatarMustWatch: {
-    backgroundColor: "rgb(255, 0, 0)",
+    backgroundColor: "rgb(0, 0, 255)", // blue for must-watch
   },
 };
 
@@ -39,6 +39,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
   const isFavourite = favourites.find((id) => id === movie.id) ? true : false; //NEW
 
   const { mustWatch, addToMustWatch } = useContext(MoviesContext); //NEW
+  console.log(mustWatch);
 
   const isMustWatch = mustWatch.find((id) => id === movie.id) ? true : false; //NEW
 
@@ -46,18 +47,18 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
     <Card sx={styles.card}>
       <CardHeader
         avatar={
-          isFavourite ? ( //CHANGED
-            <Avatar sx={styles.avatar}>
-              <FavoriteIcon />
-            </Avatar>
-          ) : null
-        }
-        avatarMustWatch={
-          isMustWatch ? ( //CHANGED
-            <Avatar sx={styles.avatarMustWatch}>
-              <PlaylistAddCheckIcon />
-            </Avatar>
-          ) : null
+          <div>
+            {isFavourite && (
+              <Avatar sx={styles.avatar}>
+                <FavoriteIcon />
+              </Avatar>
+            )}
+            {isMustWatch && (
+              <Avatar sx={styles.avatarMustWatch}>
+                <PlaylistAddCheckIcon />
+              </Avatar>
+            )}
+          </div>
         }
         title={
           <Typography variant="h5" component="p">
