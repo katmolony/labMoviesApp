@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
 import { MovieDetailsProps, BaseMovieProps } from "../../types/interfaces";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+// import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+import { MoviesContext } from "../../contexts/moviesContext";
 
 const styles = {
   root: {
@@ -23,23 +25,33 @@ const styles = {
 };
 
 const MovieHeader: React.FC<MovieDetailsProps> = (movie) => {
-  const favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
-  const favourite = favourites.find(
-    (favourite: MovieDetailsProps) => favourite.id === movie.id
-  );
+  const { favourites } = useContext(MoviesContext);
+  console.log(favourites);
+
+  const isFavourite = favourites.includes(movie.id);
+
+// const MovieHeader: React.FC<MovieDetailsProps> = (movie) => {
+//  const favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
+//   console.log(favourites);
+//   const favourite = favourites.find(
+//     (favourite: MovieDetailsProps) => favourite.id === movie.id
+//   );
+
+  // const mustWatch = JSON.parse(localStorage.getItem("mustWatch") || "[]");
+  // const mustWatch = mustWatch.find(
+  //   (mustWatch: MovieDetailsProps) => mustWatch.id === movie.id
+  // );
 
   return (
     <Paper component="div" sx={styles.root}>
       <IconButton aria-label="go back">
         <ArrowBackIcon color="primary" fontSize="large" />
       </IconButton>
-      {
-      favourite ? (
+      {isFavourite ? (
         <Avatar sx={styles.avatar}>
           <FavoriteIcon />
         </Avatar>
-      ) : null
-      }
+      ) : null}
       <Typography variant="h4" component="h3">
         {movie.title}
         {"   "}
