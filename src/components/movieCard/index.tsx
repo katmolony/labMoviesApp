@@ -1,4 +1,4 @@
-import React, {MouseEvent, useContext} from "react";
+import React, { MouseEvent, useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import Grid from "@mui/material/Grid";
 import img from "../../images/film-poster-placeholder.png";
 import { BaseMovieProps } from "../../types/interfaces";
@@ -22,6 +23,9 @@ const styles = {
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
   },
+  avatarMustWatch: {
+    backgroundColor: "rgb(255, 0, 0)",
+  },
 };
 
 interface MovieCardProps {
@@ -29,28 +33,38 @@ interface MovieCardProps {
   action: (m: BaseMovieProps) => React.ReactNode;
 }
 
-  
-const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
-    const { favourites, addToFavourites } = useContext(MoviesContext);//NEW
-  
-  const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
-  
-    return (
-        <Card sx={styles.card}>
-        <CardHeader
-          avatar={
-            isFavourite ? (   //CHANGED
-              <Avatar sx={styles.avatar}>
-                <FavoriteIcon />
-              </Avatar>
-            ) : null
-          }
-          title={
-            <Typography variant="h5" component="p">
-              {movie.title}{" "}
-            </Typography>
-          }
-        />
+const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
+  const { favourites, addToFavourites } = useContext(MoviesContext); //NEW
+
+  const isFavourite = favourites.find((id) => id === movie.id) ? true : false; //NEW
+
+  const { mustWatch, addToMustWatch } = useContext(MoviesContext); //NEW
+
+  const isMustWatch = mustWatch.find((id) => id === movie.id) ? true : false; //NEW
+
+  return (
+    <Card sx={styles.card}>
+      <CardHeader
+        avatar={
+          isFavourite ? ( //CHANGED
+            <Avatar sx={styles.avatar}>
+              <FavoriteIcon />
+            </Avatar>
+          ) : null
+        }
+        avatarMustWatch={
+          isMustWatch ? ( //CHANGED
+            <Avatar sx={styles.avatarMustWatch}>
+              <PlaylistAddCheckIcon />
+            </Avatar>
+          ) : null
+        }
+        title={
+          <Typography variant="h5" component="p">
+            {movie.title}{" "}
+          </Typography>
+        }
+      />
       <CardMedia
         sx={styles.media}
         image={
@@ -76,7 +90,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-      {action(movie)}
+        {action(movie)}
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
