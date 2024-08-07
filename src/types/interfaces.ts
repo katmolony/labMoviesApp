@@ -90,3 +90,85 @@ export interface Review {
   rating: number,
   movieId: number,
 }
+
+// export type FilterOption = "title" | "genre";
+
+export interface BaseTVShowProps {
+  adult: boolean;
+  backdrop_path?: string;
+  genre_ids: number[];
+  id: number;
+  origin_country: string[];
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path?: string;
+  first_air_date: string;
+  name: string;
+  vote_average: number;
+  vote_count: number;
+  favourite?: boolean;
+  mustWatch?: boolean[];
+}
+
+export interface BaseTVShowListProps {
+  shows: BaseTVShowProps[];
+  // action: (s: BaseTVShowProps) => React.ReactNode;
+}
+
+export interface TVShowDetailsProps extends BaseTVShowProps {
+  genres: {
+    id: number;
+    name: string;
+  }[];
+  production_countries: {
+    iso_3166_1: string;
+    name: string;
+  }[];
+}
+
+export interface TVShowImage {
+  file_path: string;
+  aspect_ratio?: number;
+  height?: number;
+  iso_639_1?: string;
+  vote_average?: number;
+  vote_count?: number;
+  width?: number;
+}
+
+export interface TVShowPageProps {
+  show: TVShowDetailsProps;
+  images: TVShowImage[];
+}
+
+// export interface TVShowListPageTemplateProps extends BaseTVShowListProps {
+//   title: string;
+// }
+export interface TVShowListPageTemplateProps extends BaseTVShowListProps {
+  name: string;
+}
+
+export interface Review {
+  id: string;
+  content: string;
+  author: string;
+  agree: boolean;
+  rating: number;
+  showId: number;
+}
+
+export interface GenreData {
+  genres: {
+    id: string;
+    name: string;
+  }[];
+}
+
+export interface DiscoverTVShows {
+  page: number;
+  total_pages: number;
+  total_results: number;
+  results: BaseTVShowProps[];
+}

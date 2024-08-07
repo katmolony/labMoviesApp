@@ -11,29 +11,27 @@ import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { orange } from "@mui/material/colors";
 
 const styles = {
-    title: {
-      flexGrow: 1,
-    },
-  };
+  title: {
+    flexGrow: 1,
+  },
+};
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
-const SiteHeader: React.FC = () => {
+const SiteHeaderTV: React.FC = () => {
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement|null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const menuOptions = [
-    { label: "Home", path: "/" },
-    { label: "Favorites", path: "/movies/favourites" },
-    { label: "Upcoming Movies", path: "/movies/upcoming" },
-    { label: "Must Watch", path: "/movies/mustWatch" },
-    { label: "Most Popular", path: "/movies/mostPopular" },
+    { label: "Return to Movies", path: "/" },
     { label: "TV Shows", path: "/tv" },
+    { label: "Home Page", path: "/tv/tvHomepage" }
   ];
 
   const handleMenuSelect = (pageURL: string) => {
@@ -46,13 +44,13 @@ const SiteHeader: React.FC = () => {
 
   return (
     <>
-      <AppBar position="fixed" elevation={0} color="primary">
+      <AppBar position="fixed" elevation={0} sx={{ backgroundColor: orange[500] }}>
         <Toolbar>
           <Typography variant="h4" sx={styles.title}>
             TMDB Client
           </Typography>
           <Typography variant="h6" sx={styles.title}>
-            All you ever wanted to know about Movies!
+            All you ever wanted to know about TV Shows!
           </Typography>
           {isMobile ? (
             <>
@@ -111,4 +109,4 @@ const SiteHeader: React.FC = () => {
   );
 };
 
-export default SiteHeader;
+export default SiteHeaderTV;
