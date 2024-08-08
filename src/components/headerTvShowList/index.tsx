@@ -21,7 +21,7 @@ interface HeaderProps {
     title: string;
 }
 
-const Header: React.FC<HeaderProps> = (headerProps) => {
+const TvHeader: React.FC<HeaderProps> = (headerProps) => {
     const title = headerProps.title
 
     return (
@@ -44,4 +44,4 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
     );
 };
 
-export default Header;
+export default TvHeader;

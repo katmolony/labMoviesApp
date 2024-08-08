@@ -16,6 +16,9 @@ import MustWatchMoviesPage from "./pages/mustWatch";
 import TvHomepage from "./pages/tvHomepage";
 import TvLayout from "./components/tvLayout";
 
+import TvShowListPage from "./pages/tvHomepage";
+import { BaseTVShowProps } from "./types/interfaces";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -25,6 +28,26 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+const shows: BaseTVShowProps[] = [
+  {
+    adult: false,
+    backdrop_path: "/someBackdrop.jpg",
+    genre_ids: [18, 10765],
+    id: 1,
+    origin_country: ["US"],
+    original_language: "en",
+    original_name: "Breaking Bad",
+    overview: "A high school chemistry teacher turned methamphetamine producer...",
+    popularity: 123.456,
+    poster_path: "/somePoster.jpg",
+    first_air_date: "2008-01-20",
+    name: "Breaking Bad",
+    vote_average: 9.5,
+    vote_count: 12345,
+  },
+  // Add more TV shows here
+];
 
 
 const App = () => {
@@ -46,7 +69,8 @@ const App = () => {
 
             {/* TV Routes */}
             <Route path="/tv" element={<TvLayout />} />
-            <Route path="/tv/tvHomepage" element={<TvHomepage />} />
+            {/* <Route path="/tv" element={<TvHomepage shows={shows}/>} /> */}
+            <Route path="/tv/tvHomepage" element={<TvShowListPage shows={shows} />} /> 
           </Routes>
         </MoviesContextProvider>
       </BrowserRouter>
