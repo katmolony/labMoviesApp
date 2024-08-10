@@ -1,15 +1,18 @@
 import React from "react";
-import TvShow from "../tvShowCard/";
+import TVShowCard from "../tvShowCard/";  // Import your TVShowCard component
 import Grid from "@mui/material/Grid";
 import { BaseTVShowListProps } from "../../types/interfaces";
 
-const TvShowList: React.FC<BaseTVShowListProps> = ({shows}) => {
-  let tvShowCards = shows.map((s) => (
-    <Grid key={s.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
-      <TvShow key={s.id} {...s} />
-    </Grid>
-  ));
-  return tvShowCards;
+interface TvShowListProps extends BaseTVShowListProps {
+  averagePopularity: number;
 }
 
-  export default TvShowList;
+const TvShowList: React.FC<TvShowListProps> = ({ shows, averagePopularity }) => {
+  return shows.map((show) => (
+    <Grid key={show.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
+      <TVShowCard show={show} averagePopularity={averagePopularity} />
+    </Grid>
+  ));
+};
+
+export default TvShowList;

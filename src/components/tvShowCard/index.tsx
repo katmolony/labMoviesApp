@@ -18,24 +18,33 @@ const styles = {
 
 interface TvShowCardProps {
   show: BaseTVShowProps;
- action: (s: BaseTVShowProps) => React.ReactNode;
+  averagePopularity: number;
 }
 
-const TVShowCard: React.FC<BaseTVShowProps> = ( show ) => {
+const TVShowCard: React.FC<TvShowCardProps> = ({ show, averagePopularity }) => {
+  const popularityPercentage = averagePopularity > 0 
+    ? ((show.popularity / averagePopularity) * 100).toFixed(2)
+    : '0.00';
+
+  console.log(`Show: ${show.name}, Popularity: ${show.popularity}, Percentage: ${popularityPercentage}%`);
+
   return (
     <Card sx={styles.card}>
-      <CardMedia sx={styles.media}
+      <CardMedia
         component="img"
-        height="140"
+        // height="140"
         image={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
         alt={show.name}
       />
       <CardContent>
-        <Typography gutterBottom variant="h6" component="div">
-          <h1>{show.name}</h1>
+        <Typography gutterBottom variant="h6">
+          {show.name}
+        </Typography>
+        <Typography variant="body2">
+          Popularity: {popularityPercentage}%
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <h3>Overview: </h3> {show.overview}
+          Overview: {show.overview}
         </Typography>
       </CardContent>
     </Card>
