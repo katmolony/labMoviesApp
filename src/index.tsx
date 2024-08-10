@@ -15,6 +15,7 @@ import AddMovieReviewPage from "./pages/addMovieReviewPage";
 import MustWatchMoviesPage from "./pages/mustWatch";
 import TvHomepage from "./pages/tvHomepage";
 import TvLayout from "./components/tvLayout";
+import { LanguageProvider } from './contexts/LanguageContext';
 
 import TvShowListPage from "./pages/tvHomepage";
 import { BaseTVShowProps } from "./types/interfaces";
@@ -56,6 +57,7 @@ const App = () => {
       <BrowserRouter>
         <SiteHeader /> {/* New Header  */}
         <MoviesContextProvider>
+        <LanguageProvider>
           <Routes>
             <Route path="/reviews/form" element={<AddMovieReviewPage />} />
             <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
@@ -72,6 +74,7 @@ const App = () => {
             {/* <Route path="/tv" element={<TvHomepage shows={shows}/>} /> */}
             <Route path="/tv/tvHomepage" element={<TvShowListPage shows={shows} />} /> 
           </Routes>
+          </LanguageProvider>
         </MoviesContextProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />

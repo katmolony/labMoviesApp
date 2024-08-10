@@ -4,6 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import { BaseTVShowProps } from "../../types/interfaces";
+import { useLanguageMap } from "../../contexts/LanguageContext";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -16,23 +17,33 @@ const styles = {
   },
 };
 
+const truncateText = (text: string, maxLength: number) => {
+  if (!text || text.trim() === "") {
+    return "Overview to be added";
+  }
+  return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+};
+
 interface TvShowCardProps {
   show: BaseTVShowProps;
   averagePopularity: number;
 }
 
 const TVShowCard: React.FC<TvShowCardProps> = ({ show, averagePopularity }) => {
+  const languageMap = useLanguageMap();
   const popularityPercentage = averagePopularity > 0 
     ? ((show.popularity / averagePopularity) * 100).toFixed(2)
     : '0.00';
 
-  console.log(`Show: ${show.name}, Popularity: ${show.popularity}, Percentage: ${popularityPercentage}%`);
+  const maxOverviewLength = 100; // Set maximum length for the overview
+
+  // Get the full language name from the languageMap
+  const languageName = languageMap[show.original_language] || show.original_language;
 
   return (
     <Card sx={styles.card}>
       <CardMedia
         component="img"
-        // height="140"
         image={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
         alt={show.name}
       />
@@ -43,8 +54,11 @@ const TVShowCard: React.FC<TvShowCardProps> = ({ show, averagePopularity }) => {
         <Typography variant="body2">
           Popularity: {popularityPercentage}%
         </Typography>
+        <Typography variant="body2">
+          Language: {languageName}
+        </Typography>
         <Typography variant="body2" color="text.secondary">
-          Overview: {show.overview}
+          Overview: {truncateText(show.overview, maxOverviewLength)}
         </Typography>
       </CardContent>
     </Card>
