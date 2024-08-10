@@ -1,14 +1,15 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import PageTemplate from "../components/templateMoviePage";
+import TemplateContentPage from "../components/templateContentPage";
 import MovieReview from "../components/movieReview";
 
 const MovieReviewPage: React.FC = () => {
-  const { state : {movie, review } } = useLocation()
+  const { state: { movie, review } } = useLocation();
+
   return (
-    <PageTemplate movie={movie}>
+    <TemplateContentPage content={movie}>
       <MovieReview {...review} />
-    </PageTemplate>
+    </TemplateContentPage>
   );
 };
 

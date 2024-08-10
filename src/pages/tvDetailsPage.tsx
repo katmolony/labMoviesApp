@@ -1,8 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import ContentDetails from "../components/contentDetails";
-import PageTemplate from "../components/templateContentPage"; // Updated to work with both movie and TV show
-import { getTvShow } from '../api/tmdb-api'; // Update this to fetch TV show details
+import PageTemplate from "../components/templateContentPage";
+import { getTvShow } from '../api/tmdb-api';
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner';
 import { TvShowDetailsProps } from "../types/interfaces";
