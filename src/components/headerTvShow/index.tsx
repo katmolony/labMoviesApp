@@ -25,13 +25,24 @@ const styles = {
   },
 };
 
-const TvHeader: React.FC<TVShowDetailsProps> = (show) => {
+const TvHeader: React.FC<TvShowDetailsProps> = (show) => {
+  const favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
+  const favourite = favourites.find(
+    (favourite: TvShowDetailsProps) => favourite.id === show.id
+  );
 
   return (
     <Paper component="div" sx={styles.root}>
       <IconButton aria-label="go back">
         <ArrowBackIcon color="primary" fontSize="large" />
       </IconButton>
+      {
+      favourite ? (
+        <Avatar sx={styles.avatar}>
+          <FavoriteIcon />
+        </Avatar>
+      ) : null
+      }
       <Typography variant="h4" component="h3">
         {show.name}
         {"   "}
