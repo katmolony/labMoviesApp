@@ -1,6 +1,11 @@
 import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import IconButton from "@mui/material/IconButton";
+import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import { BaseTVShowProps } from "../../types/interfaces";
@@ -31,14 +36,16 @@ interface TvShowCardProps {
 
 const TVShowCard: React.FC<TvShowCardProps> = ({ show, averagePopularity }) => {
   const languageMap = useLanguageMap();
-  const popularityPercentage = averagePopularity > 0 
-    ? ((show.popularity / averagePopularity) * 100).toFixed(2)
-    : '0.00';
+  const popularityPercentage =
+    averagePopularity > 0
+      ? ((show.popularity / averagePopularity) * 100).toFixed(2)
+      : "0.00";
 
   const maxOverviewLength = 100; // Set maximum length for the overview
 
   // Get the full language name from the languageMap
-  const languageName = languageMap[show.original_language] || show.original_language;
+  const languageName =
+    languageMap[show.original_language] || show.original_language;
 
   return (
     <Card sx={styles.card}>
@@ -54,12 +61,20 @@ const TVShowCard: React.FC<TvShowCardProps> = ({ show, averagePopularity }) => {
         <Typography variant="body2">
           Popularity: {popularityPercentage}%
         </Typography>
-        <Typography variant="body2">
-          Language: {languageName}
-        </Typography>
+        <Typography variant="body2">Language: {languageName}</Typography>
         <Typography variant="body2" color="text.secondary">
           Overview: {truncateText(show.overview, maxOverviewLength)}
         </Typography>
+        <CardActions disableSpacing>
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon color="primary" fontSize="large" />
+          </IconButton>
+          <Link to={`/tv/${show.id}`}>
+          <Button variant="outlined" size="medium" color="primary">
+            More Info ...
+          </Button>
+        </Link>
+        </CardActions>
       </CardContent>
     </Card>
   );

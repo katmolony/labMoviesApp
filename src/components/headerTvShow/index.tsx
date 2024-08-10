@@ -10,6 +10,7 @@ import { TVShowDetailsProps, BaseTVShowProps } from "../../types/interfaces";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 // import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import { showsContext } from "../../contexts/showsContext";
+import { TvShowDetailsProps } from "../../types/interfaces";
 
 const styles = {
   root: {
@@ -25,27 +26,18 @@ const styles = {
 };
 
 const TvHeader: React.FC<TVShowDetailsProps> = (show) => {
-  // const { favourites } = useContext(moviesContext);
-  // console.log(favourites);
-
-  // const isFavourite = favourites.includes(show.id);
 
   return (
     <Paper component="div" sx={styles.root}>
       <IconButton aria-label="go back">
         <ArrowBackIcon color="primary" fontSize="large" />
       </IconButton>
-      {/* {isFavourite ? (
-        <Avatar sx={styles.avatar}>
-          <FavoriteIcon />
-        </Avatar>
-      ) : null} */}
       <Typography variant="h4" component="h3">
         {show.name}
         {"   "}
-        <a href={show.overview}>
+        {/* <a href={show.homepage}>
           <HomeIcon color="primary" fontSize="large" />
-        </a>
+        </a> */}
         <br />
         <span>{`${show.first_air_date}`} </span>
       </Typography>

@@ -172,3 +172,64 @@ export interface DiscoverTVShows {
   total_results: number;
   results: BaseTVShowProps[];
 }
+
+// // Use for movie and tv details page
+// export interface ContentDetailsProps {
+//   type: "movie" | "show";
+//   overview: string;
+//   genres: { name: string }[];
+//   runtime?: number;
+//   revenue?: number;
+//   vote_average: number;
+//   vote_count: number;
+//   release_date: string;
+// }
+
+// export interface ContentDetailsProps {
+//   id: number;
+//   title: string;
+//   overview: string;
+//   poster_path: string;
+//   backdrop_path: string;
+//   genres: { id: number; name: string }[];
+//   release_date?: string; // For movies
+//   first_air_date?: string; // For TV shows
+//   runtime?: number; // For movies
+//   episode_run_time?: number[]; // For TV shows
+//   vote_average: number;
+//   vote_count: number;
+//   // Other properties common to both movies and TV shows
+// }
+
+export interface MovieDetailsProps {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  backdrop_path: string;
+  genres: { id: number; name: string }[];
+  release_date: string;
+  runtime: number;
+  vote_average: number;
+  vote_count: number;
+  budget: number;
+  homepage: string;
+  imdb_id: string;
+ // production_countries: { iso_3166_1: string; name: string }[];
+}
+
+export interface TvShowDetailsProps {
+  id: number;
+  title: string;
+  name: string; 
+  overview: string;
+  poster_path: string;
+  backdrop_path: string;
+  genres: { id: number; name: string }[];
+  first_air_date: string;
+  episode_run_time: number[];
+  vote_average: number;
+  vote_count: number;
+}
+
+export type ContentDetailsProps = MovieDetailsProps | TvShowDetailsProps;

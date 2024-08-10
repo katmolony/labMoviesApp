@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Navigate, Routes, Link } from "react-router-dom";
 import HomePage from "./pages/homePage";
 import MoviePage from "./pages/movieDetailsPage";
+import TvPage from "./pages/tvDetailsPage"
 import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import MostPopular from "./pages/mostPopular";
@@ -31,22 +32,6 @@ const queryClient = new QueryClient({
 });
 
 const shows: BaseTVShowProps[] = [
-  {
-    adult: false,
-    backdrop_path: "/someBackdrop.jpg",
-    genre_ids: [18, 10765],
-    id: 1,
-    origin_country: ["US"],
-    original_language: "en",
-    original_name: "Breaking Bad",
-    overview: "A high school chemistry teacher turned methamphetamine producer...",
-    popularity: 123.456,
-    poster_path: "/somePoster.jpg",
-    first_air_date: "2008-01-20",
-    name: "Breaking Bad",
-    vote_average: 9.5,
-    vote_count: 12345,
-  },
   // Add more TV shows here
 ];
 
@@ -72,7 +57,8 @@ const App = () => {
             {/* TV Routes */}
             <Route path="/tv" element={<TvLayout />} />
             {/* <Route path="/tv" element={<TvHomepage shows={shows}/>} /> */}
-            <Route path="/tv/tvHomepage" element={<TvShowListPage shows={shows} />} /> 
+            <Route path="/tv/tvHomepage" element={<TvShowListPage shows={shows} />} />
+            <Route path="/tv/:id" element={<TvPage />} /> 
           </Routes>
           </LanguageProvider>
         </MoviesContextProvider>

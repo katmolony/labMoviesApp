@@ -30,18 +30,6 @@ const MovieHeader: React.FC<MovieDetailsProps> = (movie) => {
 
   const isFavourite = favourites.includes(movie.id);
 
-// const MovieHeader: React.FC<MovieDetailsProps> = (movie) => {
-//  const favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
-//   console.log(favourites);
-//   const favourite = favourites.find(
-//     (favourite: MovieDetailsProps) => favourite.id === movie.id
-//   );
-
-  // const mustWatch = JSON.parse(localStorage.getItem("mustWatch") || "[]");
-  // const mustWatch = mustWatch.find(
-  //   (mustWatch: MovieDetailsProps) => mustWatch.id === movie.id
-  // );
-
   return (
     <Paper component="div" sx={styles.root}>
       <IconButton aria-label="go back">

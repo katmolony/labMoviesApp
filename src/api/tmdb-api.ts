@@ -116,3 +116,28 @@ export const getTvShows= () => {
     });
 };
 
+export const getTvShow = (series_id: string) => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${series_id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  ).then((response) => {
+    if (!response.ok) {
+      throw new Error(`Failed to get movie data. Response status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    throw error
+ });
+};
+
+// https://api.themoviedb.org/3/tv/{series_id}
+
+export const getContentImages = async (id: number, type: 'movie' | 'tv'): Promise<MovieImage[]> => {
+  const endpoint = type === 'movie' ? `/movie/${id}/images` : `/tv/${id}/images`;
+  const response = await fetch(`https://api.themoviedb.org/3${endpoint}?api_key=${import.meta.env.VITE_TMDB_KEY}`);
+  if (!response.ok) {
+      throw new Error("Error fetching images");
+  }
+  const data = await response.json();
+  return data.backdrops; // Adjust based on API response
+};

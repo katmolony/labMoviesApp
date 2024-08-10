@@ -3,7 +3,7 @@ import TvHeader from "../headerTvShowList";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { getTvShowImages } from "../../api/tmdb-api";
+import { getContentImages } from "../../api/tmdb-api";
 import { TVShowImage, TVShowDetailsProps } from "../../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
@@ -29,7 +29,7 @@ interface TemplateTvShowPageProps {
 const TemplateTvShowPage: React.FC<TemplateTvShowPageProps> = ({show, children}) => {
     const { data, error, isLoading, isError } = useQuery<TVShowImage[], Error>(
         ["images", show.id],
-        () => getTvShowImages(show.id)
+        () => getContentImages(show.id, 'tv')
     );
 
     if (isLoading) {

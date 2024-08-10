@@ -18,7 +18,7 @@ const TvShowListPage: React.FC = () => {
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/tv/popular?api_key=${
+      `https://api.themoviedb.org/3/discover/tv?api_key=${
         import.meta.env.VITE_TMDB_KEY
       }&language=en-US&page=1`
     )
