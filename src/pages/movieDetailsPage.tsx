@@ -19,7 +19,7 @@ const MovieDetailsPage: React.FC = () => {
         () => {
             return getMovie(id || "").then(movie => ({
                 ...movie,
-                type: "movie", // Add the type property here
+                type: "movie",
             }));
         }
     );

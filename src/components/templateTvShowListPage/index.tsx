@@ -1,136 +1,81 @@
-import React from "react";
+import React, {useState} from "react";
 import TvHeader from "../headerTvShowList";
+import FilterTvShowCard from "../filterTvShowCard";
 import Grid from "@mui/material/Grid";
 import TvShowList from "../tvShowList";
 import { TVShowListPageTemplateProps, BaseTVShowListProps } from "../../types/interfaces";
+import Fab from "@mui/material/Fab";
+import Drawer from "@mui/material/Drawer";
+import SiteHeaderTV from "../siteHeaderTv";
 
 
 const styles = {
   root: {
     padding: "20px",
   },
+  fab: {
+    marginTop: 8,
+    position: "fixed",
+    top: 2,
+    right: 2,
+  },
 };
 
-const TvShowListPage: React.FC<BaseTVShowListProps> = ({ shows }) => {
-  const totalPopularity = shows.reduce((total, show) => total + show.popularity, 0);
+const TVShowListPageTemplate: React.FC< TVShowListPageTemplateProps> = ({ shows, name, selectFavourite }) =>{
+  const [titleFilter, setTitleFilter] = useState("");
+  const [genreFilter, setGenreFilter] = useState("0");
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  
+  const genreId = Number(genreFilter);
 
-  console.log(` frominterface TvShowCardProps {
-    show: BaseTVShowProps;
-    totalPopularity: number;
-  }
-  
-  const TVShowCard: React.FC<TvShowCardProps> = ({ show, totalPopularity }) => {
-    const popularityPercentage = totalPopularity > 0 
-      ? ((show.popularity / totalPopularity) * 100).toFixed(2)
-      : '0.00';
-  
-    console.log(`from template page Show: ${show.name}, Popularity: ${show.popularity}, Percentage: ${popularityPercentage}%, Total Popularity: ${totalPopularity}`);
-  
-    return (
-      <Card>
-        <CardMedia
-          component="img"
-          height="140"
-          image={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
-          alt={show.name}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h6">
-            {show.name}
-          </Typography>
-          <Typography variant="body2">
-            Popularity: {popularityPercentage}%
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Overview: {show.overview}
-          </Typography>
-        </CardContent>
-      </Card>
-    );
+  let displayedShows = shows
+    .filter((m) => {
+      return m.name.toLowerCase().search(titleFilter.toLowerCase()) !== -1;
+    })
+    .filter((m) => {
+      return genreId > 0 ? m.genre_ids?.includes(genreId) : true;
+    });
+
+  const handleChange = (type: string, value: string) => {
+    if (type === "title") setTitleFilter(value);
+    else setGenreFilter(value);
   };
-  
-  export default TVShowCard;interface TvShowCardProps {
-    show: BaseTVShowProps;
-    totalPopularity: number;
-  }
-  
-  const TVShowCard: React.FC<TvShowCardProps> = ({ show, totalPopularity }) => {
-    const popularityPercentage = totalPopularity > 0 
-      ? ((show.popularity / totalPopularity) * 100).toFixed(2)
-      : '0.00';
-  
-    console.log(`Show: ${show.name}, Popularity: ${show.popularity}, Percentage: ${popularityPercentage}%, Total Popularity: ${totalPopularity}`);
-  
-    return (
-      <Card>
-        <CardMedia
-          component="img"
-          height="140"
-          image={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
-          alt={show.name}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h6">
-            {show.name}
-          </Typography>
-          <Typography variant="body2">
-            Popularity: {popularityPercentage}%
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Overview: {show.overview}
-          </Typography>
-        </CardContent>
-      </Card>
-    );
-  };
-  
-  export default TVShowCard;interface TvShowCardProps {
-    show: BaseTVShowProps;
-    totalPopularity: number;
-  }
-  
-  const TVShowCard: React.FC<TvShowCardProps> = ({ show, totalPopularity }) => {
-    const popularityPercentage = totalPopularity > 0 
-      ? ((show.popularity / totalPopularity) * 100).toFixed(2)
-      : '0.00';
-  
-    console.log(`Show: ${show.name}, Popularity: ${show.popularity}, Percentage: ${popularityPercentage}%, Total Popularity: ${totalPopularity}`);
-  
-    return (
-      <Card>
-        <CardMedia
-          component="img"
-          height="140"
-          image={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
-          alt={show.name}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h6">
-            {show.name}
-          </Typography>
-          <Typography variant="body2">
-            Popularity: {popularityPercentage}%
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Overview: {show.overview}
-          </Typography>
-        </CardContent>
-      </Card>
-    );
-  };
-  
-  export default TVShowCard;Total Popularity: ${totalPopularity}`); // Log total popularity
 
   return (
-    <Grid container sx={styles.root}>
-      <Grid item xs={12}>
-        <h2>TV Shows</h2>
+   <>
+      <Grid container sx={styles.root}>
+      <SiteHeaderTV></SiteHeaderTV>
+        <Grid item xs={12}>
+          <TvHeader title={name} />
+        </Grid>
+        <Grid item container spacing={5}>
+          <TvShowList
+            shows={displayedShows}
+            selectFavourite={selectFavourite}
+            averagePopularity={20} // fix this
+          />
+        </Grid>
       </Grid>
-      <Grid item container spacing={5}>
-        <TvShowList shows={shows} totalPopularity={totalPopularity} />
-      </Grid>
-    </Grid>
+      <Fab
+        color="secondary"
+        variant="extended"
+        onClick={() => setDrawerOpen(true)}
+        sx={styles.fab}
+      >
+        Filter
+      </Fab>
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
+        <FilterTvShowCard
+          onUserInput={handleChange}
+          titleFilter={titleFilter}
+          genreFilter={genreFilter}
+        />
+      </Drawer>
+    </>  
   );
-};
-
-export default TvShowListPage;
+}
+export default TVShowListPageTemplate;

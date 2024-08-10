@@ -31,6 +31,7 @@ const SiteHeaderTV: React.FC = () => {
   const menuOptions = [
     { label: "Return to Movies", path: "/" },
     { label: "TV Shows", path: "/tv/tvHomepage" },
+    { label: "Favourites", path: "/tv/favourites" },
     { label: "Home Page", path: "/tv" }
   ];
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -10,6 +10,8 @@ import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import { BaseTVShowProps } from "../../types/interfaces";
 import { useLanguageMap } from "../../contexts/LanguageContext";
+import Avatar from "@mui/material/Avatar";
+import { CardHeader } from "@mui/material";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -31,10 +33,15 @@ const truncateText = (text: string, maxLength: number) => {
 
 interface TvShowCardProps {
   show: BaseTVShowProps;
+  selectFavourite: (showId: number) => void;
   averagePopularity: number;
 }
 
-const TVShowCard: React.FC<TvShowCardProps> = ({ show, averagePopularity }) => {
+const TVShowCard: React.FC<TvShowCardProps> = ({
+  show,
+  selectFavourite,
+  averagePopularity,
+}) => {
   const languageMap = useLanguageMap();
   const popularityPercentage =
     averagePopularity > 0
@@ -47,8 +54,28 @@ const TVShowCard: React.FC<TvShowCardProps> = ({ show, averagePopularity }) => {
   const languageName =
     languageMap[show.original_language] || show.original_language;
 
+  const handleAddToFavourite = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    selectFavourite(show.id);
+  };
+
   return (
+    
     <Card sx={styles.card}>
+      <CardHeader
+        avatar={
+          show.favourite ? (
+            <Avatar sx={styles.avatar}>
+              <FavoriteIcon />
+            </Avatar>
+          ) : null
+        }
+        title={
+          <Typography variant="h5" component="p">
+            {show.name}{" "}
+          </Typography>
+        }
+      />
       <CardMedia
         component="img"
         image={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
@@ -66,14 +93,17 @@ const TVShowCard: React.FC<TvShowCardProps> = ({ show, averagePopularity }) => {
           Overview: {truncateText(show.overview, maxOverviewLength)}
         </Typography>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
+          <IconButton
+            aria-label="add to favourites"
+            onClick={handleAddToFavourite}
+          >
             <FavoriteIcon color="primary" fontSize="large" />
           </IconButton>
           <Link to={`/tv/${show.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
-          </Button>
-        </Link>
+            <Button variant="outlined" size="medium" color="primary">
+              More Info ...
+            </Button>
+          </Link>
         </CardActions>
       </CardContent>
     </Card>

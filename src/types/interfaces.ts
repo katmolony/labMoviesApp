@@ -114,6 +114,7 @@ export interface BaseTVShowProps {
 
 export interface BaseTVShowListProps {
   shows: BaseTVShowProps[];
+  selectFavourite: (movieId: number) => void; 
  // action: (s: BaseTVShowProps) => React.ReactNode;
 }
 

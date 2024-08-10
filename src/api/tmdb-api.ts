@@ -23,7 +23,7 @@ export const getMostPopularMovies = () => {
         throw new Error(
           `Unable to fetch movies. Response status: ${response.status}`
         );
-        console.log(response);
+      console.log(response);
       return response.json();
     })
     .catch((error) => {
@@ -34,28 +34,36 @@ export const getMostPopularMovies = () => {
 export const getMovie = (id: string) => {
   return fetch(
     `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error(`Failed to get movie data. Response status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .catch((error) => {
-    throw error
- });
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(
+          `Failed to get movie data. Response status: ${response.status}`
+        );
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
 
 export const getGenres = () => {
   return fetch(
-    "https://api.themoviedb.org/3/genre/movie/list?api_key=" + import.meta.env.VITE_TMDB_KEY + "&language=en-US"
-  ).then( (response) => {
-    if (!response.ok)
-      throw new Error(`Unable to fetch genres. Response status: ${response.status}`);
-    return response.json();
-  })
-  .catch((error) => {
-    throw error
- });
+    "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
+      import.meta.env.VITE_TMDB_KEY +
+      "&language=en-US"
+  )
+    .then((response) => {
+      if (!response.ok)
+        throw new Error(
+          `Unable to fetch genres. Response status: ${response.status}`
+        );
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
 
 export const getUpcomingMovies = () => {
@@ -77,14 +85,16 @@ export const getUpcomingMovies = () => {
 export const getMovieImages = (id: string | number) => {
   return fetch(
     `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error("failed to fetch images");
-    }
-    return response.json();
-  }).then((json) => json.posters)
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("failed to fetch images");
+      }
+      return response.json();
+    })
+    .then((json) => json.posters)
     .catch((error) => {
-      throw error
+      throw error;
     });
 };
 
@@ -100,44 +110,48 @@ export const getMovieReviews = (id: string | number) => {
     });
 };
 
-export const getTvShows= () => {
+export const getTvShows = () => {
   return fetch(
-    `https://api.themoviedb.org/3/tv/airing_today?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+    `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
   )
-    .then((response) => {
-      if (!response.ok)
-        throw new Error(
-          `Unable to fetch Tv shows. Response status: ${response.status}`
-        );
-      return response.json();
-    })
-    .catch((error) => {
-      throw error;
-    });
+    .then((res) => res.json())
+    .then((json) => json.results);
 };
 
 export const getTvShow = (series_id: string) => {
   return fetch(
     `https://api.themoviedb.org/3/tv/${series_id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error(`Failed to get movie data. Response status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .catch((error) => {
-    throw error
- });
+  ).then((res) => res.json());
 };
 
-// https://api.themoviedb.org/3/tv/{series_id}
+export const getTvShowImages = (id: string | number) => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  )
+    .then((res) => res.json())
+    .then((json) => json.posters);
+};
 
-export const getContentImages = async (id: number, type: 'movie' | 'tv'): Promise<MovieImage[]> => {
-  const endpoint = type === 'movie' ? `/movie/${id}/images` : `/tv/${id}/images`;
-  const response = await fetch(`https://api.themoviedb.org/3${endpoint}?api_key=${import.meta.env.VITE_TMDB_KEY}`);
+export const getContentImages = async (
+  id: number,
+  type: "movie" | "tv"
+): Promise<MovieImage[]> => {
+  const endpoint =
+    type === "movie" ? `/movie/${id}/images` : `/tv/${id}/images`;
+  const response = await fetch(
+    `https://api.themoviedb.org/3${endpoint}?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  );
   if (!response.ok) {
-      throw new Error("Error fetching images");
+    throw new Error("Error fetching images");
   }
   const data = await response.json();
   return data.backdrops; // Adjust based on API response
 };
+
+export const getTvShowGenres = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/genre/tv/list?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    )
+      .then(res => res.json())
+      .then(json => json.genres);
+  };
