@@ -23,7 +23,7 @@ export interface BaseMovieProps {
 
 export interface BaseMovieListProps {
   movies: BaseMovieProps[];
-  action: (m: BaseMovieProps) => React.ReactNode;
+  // action: (m: BaseMovieProps) => React.ReactNode;
 }
 
 export interface MovieDetailsProps extends BaseMovieProps {
@@ -91,7 +91,7 @@ export interface Review {
   movieId: number,
 }
 
-// export type FilterOption = "title" | "genre";
+//  export type TVFilterOption = "name" | "genre";
 
 export interface BaseTVShowProps {
   adult: boolean;
@@ -114,7 +114,7 @@ export interface BaseTVShowProps {
 
 export interface BaseTVShowListProps {
   shows: BaseTVShowProps[];
-  // action: (s: BaseTVShowProps) => React.ReactNode;
+ // action: (s: BaseTVShowProps) => React.ReactNode;
 }
 
 export interface TVShowDetailsProps extends BaseTVShowProps {
