@@ -28,7 +28,7 @@ const styles = {
 
 interface TemplateContentPageProps {
   content: ContentDetailsProps;
-  children: React.ReactNode; // Use React.ReactNode to allow multiple children
+  children: React.ReactNode; 
 }
 
 const TemplateContentPage: React.FC<TemplateContentPageProps> = ({

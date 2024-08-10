@@ -6,6 +6,7 @@ import { getMovie } from '../api/tmdb-api';
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner';
 import { MovieDetailsProps } from "../types/interfaces";
+import MovieDetails from "../components/movieDetails";
 
 interface MovieDetailsWithType extends MovieDetailsProps {
     type: "movie";
@@ -36,7 +37,8 @@ const MovieDetailsPage: React.FC = () => {
         <>
             {movie ? (
                 <TemplateContentPage content={movie}>
-                    <ContentDetails {...movie} />
+                    {/* <ContentDetails {...movie} /> */}
+                    <MovieDetails {...movie} />
                 </TemplateContentPage>
             ) : (
                 <p>Waiting for movie details</p>
