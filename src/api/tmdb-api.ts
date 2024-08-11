@@ -155,3 +155,20 @@ export const getTvShowGenres = () => {
       .then(res => res.json())
       .then(json => json.genres);
   };
+
+  // Fantacy movie 
+  export const getMovieDetails = (id: string) => {
+    return fetch(
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+    )
+      .then((response) => {
+        if (!response.ok)
+          throw new Error(
+            `Unable to fetch movie details. Response status: ${response.status}`
+          );
+        return response.json();
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };

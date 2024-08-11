@@ -21,6 +21,7 @@ import FavouriteTvShowsPage from "./pages/favouriteTvShowPage";
 
 import TvShowListPage from "./pages/tvHomepage";
 import { BaseTVShowProps } from "./types/interfaces";
+import FantasyMoviePage from "./pages/fantasyMovePage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -50,6 +51,7 @@ const App = () => {
             <Route path="/movies/mustWatch" element={<MustWatchMoviesPage />} />
             <Route path="/reviews/:id" element={<MovieReviewPage />} />
             <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+            <Route path="/movies/fantasy" element={<FantasyMoviePage />} />
             <Route path="/movies/mostPopular" element={<MostPopular />} />
             <Route path="/movies/:id" element={<MoviePage />} />
             <Route path="/" element={<HomePage />} />
