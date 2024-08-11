@@ -11,7 +11,11 @@ import {
   Grid,
 } from "@mui/material";
 import { getGenres, getMovies, getMovieDetails } from "../../api/tmdb-api";
-import { MovieDetailsProps, GenreData, BaseMovieProps } from "../../types/interfaces";
+import {
+  MovieDetailsProps,
+  GenreData,
+  BaseMovieProps,
+} from "../../types/interfaces";
 
 interface FantasyMovieFormProps {
   onSave: () => void;
@@ -69,7 +73,10 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ onSave }) => {
         <Grid item xs={12}>
           <FormControl fullWidth>
             <InputLabel>Select Movie</InputLabel>
-            <Select value={selectedMovie?.id || ""} onChange={handleMovieSelect}>
+            <Select
+              value={selectedMovie?.id || ""}
+              onChange={handleMovieSelect}
+            >
               <MenuItem value="">
                 <em>Select a Movie</em>
               </MenuItem>
@@ -178,10 +185,10 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ onSave }) => {
                   onChange={(event) =>
                     setFantasyMovie({
                       ...fantasyMovie,
-                      production_countries: selectedMovie.production_countries.filter(
-                        (country) =>
+                      production_countries:
+                        selectedMovie.production_countries.filter((country) =>
                           event.target.value.includes(country.name)
-                      ),
+                        ),
                     })
                   }
                   renderValue={(selected) => selected.join(", ")}

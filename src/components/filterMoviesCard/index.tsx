@@ -1,5 +1,4 @@
-import React, { ChangeEvent } from "react";  // useState/useEffect redundant 
-import { FilterOption, GenreData } from "../../types/interfaces"; //include GenreData interface 
+import React, { ChangeEvent } from "react";
 import { SelectChangeEvent } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -13,14 +12,19 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
-import Spinner from '../spinner';
+import Spinner from "../spinner";
+
+// Ensure these values match those used in HomePage
+const SORT_OPTIONS = {
+  TITLE: "title",
+  RELEASE_DATE: "release_date",
+  POPULARITY: "popularity",
+};
 
 const styles = {
   root: {
     maxWidth: 345,
   },
-  media: { height: 300 },
-
   formControl: {
     margin: 1,
     minWidth: 220,
@@ -29,13 +33,19 @@ const styles = {
 };
 
 interface FilterMoviesCardProps {
-  onUserInput: (f: FilterOption, s: string) => void; // Add this line
+  onUserInput: (filterType: string, value: string) => void;
   titleFilter: string;
   genreFilter: string;
+  sortOption: string;
 }
 
-const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput }) => {
-  const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
+const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
+  titleFilter,
+  genreFilter,
+  sortOption,
+  onUserInput,
+}) => {
+  const { data, error, isLoading, isError } = useQuery("genres", getGenres);
 
   if (isLoading) {
     return <Spinner />;
@@ -43,22 +53,22 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
   if (isError) {
     return <h1>{(error as Error).message}</h1>;
   }
+
   const genres = data?.genres || [];
   if (genres[0].name !== "All") {
     genres.unshift({ id: "0", name: "All" });
   }
 
-  const handleChange = (e: SelectChangeEvent, type: FilterOption, value: string) => {
-    e.preventDefault()
-      onUserInput(type, value)
+  const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onUserInput("title", e.target.value);
   };
 
-  const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChange(e, "title", e.target.value)
-  }
-
   const handleGenreChange = (e: SelectChangeEvent) => {
-    handleChange(e, "genre", e.target.value)
+    onUserInput("genre", e.target.value);
+  };
+
+  const handleSortChange = (e: SelectChangeEvent) => {
+    onUserInput("sort", e.target.value);
   };
 
   return (
@@ -86,13 +96,11 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
               value={genreFilter}
               onChange={handleGenreChange}
             >
-              {genres.map((genre) => {
-                return (
-                  <MenuItem key={genre.id} value={genre.id}>
-                    {genre.name}
-                  </MenuItem>
-                );
-              })}
+              {genres.map((genre) => (
+                <MenuItem key={genre.id} value={genre.id}>
+                  {genre.name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </CardContent>
@@ -103,6 +111,20 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
             <SortIcon fontSize="large" />
             Sort the movies.
           </Typography>
+          <FormControl sx={styles.formControl}>
+            <InputLabel id="sort-label">Sort by</InputLabel>
+            <Select
+              labelId="sort-label"
+              id="sort-select"
+              value={sortOption}
+              onChange={handleSortChange}
+            >
+              <MenuItem value={SORT_OPTIONS.TITLE}>Title</MenuItem>
+              <MenuItem value={SORT_OPTIONS.RELEASE_DATE}>Release Date</MenuItem>
+              <MenuItem value={SORT_OPTIONS.POPULARITY}>Popularity</MenuItem>
+              {/* Ensure these values match what is being used */}
+            </Select>
+          </FormControl>
         </CardContent>
       </Card>
     </>

@@ -156,10 +156,38 @@ export const getTvShowGenres = () => {
       .then(json => json.genres);
   };
 
+  export const getTvShowReviews = (id: string | number) => {
+    return fetch(
+      `https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    )
+      .then((res) => res.json())
+      .then((json) => {
+        // console.log(json.results);
+        return json.results;
+      });
+  };
+
   // Fantacy movie 
   export const getMovieDetails = (id: string) => {
     return fetch(
       `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+    )
+      .then((response) => {
+        console.log("this is the tv show reviews",response);
+        if (!response.ok)
+          throw new Error(
+            `Unable to fetch movie details. Response status: ${response.status}`
+          );
+        return response.json();
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  export const getMoviesByReleaseDate = async (minDate: string, maxDate: string) => {
+    return fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&sort_by=popularity.desc&release_date.gte=${minDate}&release_date.lte=${maxDate}&with_release_type=2|3`
     )
       .then((response) => {
         if (!response.ok)
@@ -172,3 +200,4 @@ export const getTvShowGenres = () => {
         throw error;
       });
   };
+ 
