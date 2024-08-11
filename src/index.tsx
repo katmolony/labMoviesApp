@@ -14,7 +14,6 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import MoviesContextProvider from "./contexts/moviesContext";
 import AddMovieReviewPage from "./pages/addMovieReviewPage";
 import MustWatchMoviesPage from "./pages/mustWatch";
-import TvHomepage from "./pages/tvHomepage";
 import TvLayout from "./components/tvLayout";
 import { LanguageProvider } from './contexts/LanguageContext';
 import FavouriteTvShowsPage from "./pages/favouriteTvShowPage";
@@ -22,6 +21,7 @@ import FavouriteTvShowsPage from "./pages/favouriteTvShowPage";
 import TvShowListPage from "./pages/tvHomepage";
 import { BaseTVShowProps } from "./types/interfaces";
 import FantasyMoviePage from "./pages/fantasyMovePage";
+import TvShowReviewPage from "./pages/tvShowReviewPage"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -63,6 +63,7 @@ const App = () => {
             <Route path="/tv/tvHomepage" element={<TvShowListPage shows={shows} />} />
             <Route path="/tv/:id" element={<TvPage />} /> 
             <Route path="/tv/favourites" element={<FavouriteTvShowsPage />} />
+            <Route path="/tv/reviews/:id" element={<TvShowReviewPage/>} />
           </Routes>
           </LanguageProvider>
         </MoviesContextProvider>

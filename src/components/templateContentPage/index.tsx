@@ -28,7 +28,7 @@ const styles = {
 
 interface TemplateContentPageProps {
   content: ContentDetailsProps;
-  children: React.ReactNode; 
+  children: React.ReactElement; 
 }
 
 const TemplateContentPage: React.FC<TemplateContentPageProps> = ({

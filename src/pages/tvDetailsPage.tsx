@@ -1,54 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ContentDetails from "../components/contentDetails";
-import PageTemplate from "../components/templateContentPage";
-import { useQuery } from "react-query";
-import Spinner from '../components/spinner';
-import { TvShowDetailsProps } from "../types/interfaces";
-import SiteHeaderTV from "../components/siteHeaderTv";
-import { getTvShow } from "../api/tmdb-api";
+import TemplateTvShowPage from "../components/templateTvShowPage";
 import TvShowDetails from "../components/tvShowDetails";
+import useTvShow from "../hooks/useTvShow";
 
-// Define the type for the TV show details including `type`
-interface TvShowDetailsWithType extends TvShowDetailsProps {
-    type: "show";
-}
 
 const TvShowDetailsPage: React.FC = () => {
     const { id } = useParams();
-    const [show, setShow] = useState<TvShowDetailsWithType | undefined>();
-
-    useEffect(() => {
-        getTvShow(id ?? "").then((show) => {
-            setShow({ ...show, type: "show" });
-        });
-    }, [id]);
-
-    const { data: tvShow, error, isLoading, isError } = useQuery<TvShowDetailsWithType, Error>(
-        ["tvShow", id],
-        () => getTvShow(id || "").then(tvShow => ({ ...tvShow, type: "show" }))
-    );
-
-    if (isLoading) {
-        return <Spinner />;
-    }
-
-    if (isError) {
-        return <h1>{error.message}</h1>;
-    }
+    const [show] = useTvShow(id ?? "");
 
     return (
         <>
-            <SiteHeaderTV />
-            {show ? (
-                <PageTemplate content={show}>
-                    <TvShowDetails {...show} />
-                </PageTemplate>
-            ) : (
-                <p>Waiting for TV show details</p>
-            )}
+          {show ? (
+            <>
+            <TemplateTvShowPage show={show}> 
+              <TvShowDetails {...show} />
+            </TemplateTvShowPage>
+          </>
+        ) : (
+          <p>Waiting for movie details</p>
+        )}
         </>
-    );
-};
+      );
+    };
+
 
 export default TvShowDetailsPage;

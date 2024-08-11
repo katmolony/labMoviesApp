@@ -39,7 +39,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
   const isFavourite = favourites.find((id) => id === movie.id) ? true : false; //NEW
 
   const { mustWatch } = useContext(MoviesContext); //NEW
-  console.log(mustWatch);
 
   const isMustWatch = mustWatch.find((id) => id === movie.id) ? true : false; //NEW
 
