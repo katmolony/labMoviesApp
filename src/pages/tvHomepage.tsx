@@ -7,6 +7,10 @@ import TvShowFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/tvShowFilterUI";
+import { DiscoverTVShows } from "../types/interfaces";
+import { useQuery } from "react-query";
+import Spinner from "../components/spinner";
+import AddToFavouritesIcon from "../components/cardIcons/addToFavouritesTv";
 
 const titleFiltering = {
   name: "title",
@@ -20,21 +24,18 @@ const genreFiltering = {
 };
 
 const TvShowHomePage: React.FC = () => {
-  const [shows, setShows] = useState<BaseTVShowProps[]>([]);
-  const favourites = shows.filter((m) => m.favourite);
-  const { filterValues, setFilterValues, filterFunction } = useFiltering([
-    titleFiltering,
-    genreFiltering,
-  ]);
+  const { data, error, isLoading, isError } = useQuery<DiscoverTVShows, Error>("discovertv", getTvShows);
+  const { filterValues, setFilterValues, filterFunction } = useFiltering(
+    [titleFiltering, genreFiltering]
+  );
 
-  localStorage.setItem("tvfavourites", JSON.stringify(favourites));
+  if (isLoading) {
+    return <Spinner />;
+  }
 
-  const addToFavouritesTVShow = (showId: number) => {
-    const updatedShows = shows.map((m: BaseTVShowProps) =>
-      m.id === showId ? { ...m, favourite: true } : m
-    );
-    setShows(updatedShows);
-  };
+  if (isError) {
+    return <h1>{error.message}</h1>;
+  }
 
   const changeFilterValues = (type: string, value: string) => {
     const changedFilter = { name: type, value: value };
@@ -45,21 +46,13 @@ const TvShowHomePage: React.FC = () => {
     setFilterValues(updatedFilterSet);
   };
 
-  useEffect(() => {
-    getTvShows().then((shows) => {
-      setShows(shows);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const totalPopularity = shows.reduce(
-    (total, show) => total + show.popularity,
-    0
-  );
-  const averagePopularity =
-    shows.length > 0 ? totalPopularity / shows.length : 0;
-
+  const shows = data ? data.results : [];
   const displayTvShows = filterFunction(shows);
+
+  //  Redundant, but necessary to avoid app crashing.
+    const favourites = shows.filter(m => m.favourite)
+    localStorage.setItem("tvfavourites", JSON.stringify(favourites));
+    const addToFavouritesTVShow = (showsId: number) => true;
 
   return (
     <>
@@ -67,6 +60,9 @@ const TvShowHomePage: React.FC = () => {
         name="Discover TV Shows"
         shows={displayTvShows}
         selectFavourite={addToFavouritesTVShow}
+        action={(show: BaseTVShowProps) => {
+          return <AddToFavouritesIcon {...show} />
+        }}
       />
       <TvShowFilterUI
         onFilterValuesChange={changeFilterValues}

@@ -1,8 +1,7 @@
-import React, { MouseEvent } from "react";
+import React, { MouseEvent, useContext } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -12,6 +11,7 @@ import { BaseTVShowProps } from "../../types/interfaces";
 import { useLanguageMap } from "../../contexts/LanguageContext";
 import Avatar from "@mui/material/Avatar";
 import { CardHeader } from "@mui/material";
+import { TvShowsContext } from "../../contexts/tvShowsContext";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -33,15 +33,11 @@ const truncateText = (text: string, maxLength: number) => {
 
 interface TvShowCardProps {
   show: BaseTVShowProps;
-  selectFavourite: (showId: number) => void;
+  action: (show: BaseTVShowProps) => React.ReactNode;
   averagePopularity: number;
 }
 
-const TVShowCard: React.FC<TvShowCardProps> = ({
-  show,
-  selectFavourite,
-  averagePopularity,
-}) => {
+const TVShowCard: React.FC<TvShowCardProps> = ({show, action, averagePopularity}) => {
   const languageMap = useLanguageMap();
   const popularityPercentage =
     averagePopularity > 0
@@ -54,17 +50,16 @@ const TVShowCard: React.FC<TvShowCardProps> = ({
   const languageName =
     languageMap[show.original_language] || show.original_language;
 
-  const handleAddToFavourite = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    selectFavourite(show.id);
-  };
+    const { favourites, addToFavourites } = useContext(TvShowsContext);//NEW
 
+    const isFavourite = favourites.find((id) => id === show.id)? true : false;//NEW
+     
   return (
     
     <Card sx={styles.card}>
       <CardHeader
         avatar={
-          show.favourite ? (
+          isFavourite ? (
             <Avatar sx={styles.avatar}>
               <FavoriteIcon />
             </Avatar>
@@ -93,12 +88,7 @@ const TVShowCard: React.FC<TvShowCardProps> = ({
           Overview: {truncateText(show.overview, maxOverviewLength)}
         </Typography>
         <CardActions disableSpacing>
-          <IconButton
-            aria-label="add to favourites"
-            onClick={handleAddToFavourite}
-          >
-            <FavoriteIcon color="primary" fontSize="large" />
-          </IconButton>
+        {action(show)}
           <Link to={`/tv/${show.id}`}>
             <Button variant="outlined" size="medium" color="primary">
               More Info ...

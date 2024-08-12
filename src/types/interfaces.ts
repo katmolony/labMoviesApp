@@ -114,8 +114,8 @@ export interface BaseTVShowProps {
 
 export interface BaseTVShowListProps {
   shows: BaseTVShowProps[];
-  selectFavourite: (movieId: number) => void; 
- // action: (s: BaseTVShowProps) => React.ReactNode;
+ // selectFavourite: (movieId: number) => void; 
+  action: (s: BaseTVShowProps) => React.ReactNode;
 }
 
 export interface TVShowDetailsProps extends BaseTVShowProps {
@@ -160,7 +160,7 @@ export interface Review {
   showId: number;
 }
 
-export interface GenreData {
+export interface GenreDataTV {
   genres: {
     id: string;
     name: string;

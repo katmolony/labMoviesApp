@@ -21,7 +21,7 @@ const styles = {
   },
 };
 
-const TVShowListPageTemplate: React.FC< TVShowListPageTemplateProps> = ({ shows, name, selectFavourite }) =>{
+const TVShowListPageTemplate: React.FC< TVShowListPageTemplateProps> = ({ shows, name, action }) =>{
 
   return (
     <Grid container sx={styles.root}>
@@ -32,7 +32,7 @@ const TVShowListPageTemplate: React.FC< TVShowListPageTemplateProps> = ({ shows,
       <Grid item container spacing={5}>
       <TvShowList
             shows={shows}
-            selectFavourite={selectFavourite}
+            action={action}
             averagePopularity={20} // fix this
           />
       </Grid>

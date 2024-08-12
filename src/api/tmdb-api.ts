@@ -114,23 +114,44 @@ export const getTvShows = () => {
   return fetch(
     `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
   )
-    .then((res) => res.json())
-    .then((json) => json.results);
+    .then((response) => {
+      if (!response.ok)
+        throw new Error(
+          `Unable to fetch movies. Response status: ${response.status}`
+        );
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
 
 export const getTvShow = (series_id: string) => {
   return fetch(
     `https://api.themoviedb.org/3/tv/${series_id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
-  ).then((res) => res.json());
-};
-
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to get movie data. Response status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
+  };
 export const getTvShowImages = (id: string | number) => {
   return fetch(
     `https://api.themoviedb.org/3/tv/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
-  )
-    .then((res) => res.json())
-    .then((json) => json.posters);
-};
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error("failed to fetch images");
+      }
+      return response.json();
+    }).then((json) => json.posters)
+      .catch((error) => {
+        throw error
+      });
+  };
 
 export const getContentImages = async (
   id: number,
@@ -151,53 +172,63 @@ export const getContentImages = async (
 export const getTvShowGenres = () => {
   return fetch(
     `https://api.themoviedb.org/3/genre/tv/list?api_key=${import.meta.env.VITE_TMDB_KEY}`
-    )
-      .then(res => res.json())
-      .then(json => json.genres);
-  };
+  )
+    .then((response) => {
+      if (!response.ok)
+        throw new Error(
+          `Unable to fetch genres. Response status: ${response.status}`
+        );
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
 
-  export const getTvShowReviews = (id: string | number) => {
-    return fetch(
-      `https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        // console.log(json.results);
-        return json.results;
-      });
-  };
+export const getTvShowReviews = (id: string | number) => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  )
+    .then((res) => res.json())
+    .then((json) => {
+      // console.log(json.results);
+      return json.results;
+    });
+};
 
-  // Fantacy movie 
-  export const getMovieDetails = (id: string) => {
-    return fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
-    )
-      .then((response) => {
-        console.log("this is the tv show reviews",response);
-        if (!response.ok)
-          throw new Error(
-            `Unable to fetch movie details. Response status: ${response.status}`
-          );
-        return response.json();
-      })
-      .catch((error) => {
-        throw error;
-      });
-  };
+// Fantacy movie
+export const getMovieDetails = (id: string) => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+  )
+    .then((response) => {
+      console.log("this is the tv show reviews", response);
+      if (!response.ok)
+        throw new Error(
+          `Unable to fetch movie details. Response status: ${response.status}`
+        );
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
 
-  export const getMoviesByReleaseDate = async (minDate: string, maxDate: string) => {
-    return fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&sort_by=popularity.desc&release_date.gte=${minDate}&release_date.lte=${maxDate}&with_release_type=2|3`
-    )
-      .then((response) => {
-        if (!response.ok)
-          throw new Error(
-            `Unable to fetch movie details. Response status: ${response.status}`
-          );
-        return response.json();
-      })
-      .catch((error) => {
-        throw error;
-      });
-  };
- 
+export const getMoviesByReleaseDate = async (
+  minDate: string,
+  maxDate: string
+) => {
+  return fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&sort_by=popularity.desc&release_date.gte=${minDate}&release_date.lte=${maxDate}&with_release_type=2|3`
+  )
+    .then((response) => {
+      if (!response.ok)
+        throw new Error(
+          `Unable to fetch movie details. Response status: ${response.status}`
+        );
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
+};

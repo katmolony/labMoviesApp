@@ -6,6 +6,8 @@ import ImageListItem from "@mui/material/ImageListItem";
 import { getTvShowImages } from "../../api/tmdb-api";
 import { TVShowImage, TvShowDetailsProps } from "../../types/interfaces";
 import TvHeader from "../headerTvShow";
+import { useQuery } from "react-query";
+import Spinner from '../spinner';
 
 const styles = {
     gridListRoot: {
@@ -26,15 +28,22 @@ interface TemplateMoviePageProps {
 
 
 const TemplateTvShowPage: React.FC<TemplateMoviePageProps> = ({show, children}) => {
-    const [images, setImages] = useState([]);
+    const { data, error, isLoading, isError } = useQuery<TVShowImage[], Error>(
+        ["tvimages", show.id],
+        () => getTvShowImages(show.id)
+    );
 
-    useEffect(() => {
-        getTvShowImages(show.id).then((images) => {
-            setImages(images);
-        });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    if (isLoading) {
+        return <Spinner />;
+    }
 
+    if (isError) {
+        return <h1>{(error
+
+        ).message}</h1>;
+    }
+
+    const images = data as TVShowImage[];
     return (
         <>
         <SiteHeaderTV></SiteHeaderTV>
