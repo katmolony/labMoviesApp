@@ -1,57 +1,108 @@
-import React from "react";
-import Grid from "@mui/material/Grid";
+import React from 'react';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import { Link } from 'react-router-dom';
+
+const styles = {
+  gridContainer: {
+    marginTop: 2,
+  },
+  gridItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  image: {
+    width: '100%',
+    borderRadius: '8px',
+    marginBottom: '8px',
+  },
+  listContainer: {
+    padding: '16px',
+    marginTop: '16px',
+  },
+};
 
 const MovieCreditsList = ({ movieData }) => {
-  // Separate cast and crew by department
   const cast = movieData.cast || [];
   const crew = movieData.crew || [];
 
-  // Limit the number of displayed members
   const maxCastDisplay = 6;
   const maxCrewDisplay = 4;
 
-  const actingCast = cast.filter((member) => member.known_for_department === "Acting").slice(0, maxCastDisplay);
-  const directingCrew = crew.filter((member) => member.department === "Directing").slice(0, maxCrewDisplay);
-  const otherCrew = crew.filter((member) => member.department !== "Directing").slice(0, maxCrewDisplay);
+  const actingCast = cast.filter(member => member.known_for_department === 'Acting').slice(0, maxCastDisplay);
+  const directingCrew = crew.filter(member => member.department === 'Directing').slice(0, maxCrewDisplay);
+  const otherCrew = crew.filter(member => member.department !== 'Directing').slice(0, maxCrewDisplay);
 
   return (
-    <div className="movie-details">
-      <h2>Cast</h2>
-      <h3>Acting</h3>
-      <Grid container spacing={2}>
-        {actingCast.map((member) => (
-          <Grid item key={member.id} xs={12} sm={6} md={4} lg={3} xl={2}>
-            <img
-              src={`https://image.tmdb.org/t/p/w200${member.profile_path}`}
-              alt={member.name}
-              style={{ width: "100%", borderRadius: "8px" }}
-            />
-            <p>
-              <strong>{member.name}</strong> as {member.character}
-            </p>
+    <>
+      <Typography variant="h5" component="h3" gutterBottom>
+        Cast
+      </Typography>
+      <Typography variant="h6" component="h4" gutterBottom>
+        Acting
+      </Typography>
+      <Grid container spacing={2} sx={styles.gridContainer}>
+        {actingCast.map(member => (
+          <Grid item key={member.id} xs={12} sm={6} md={4} lg={3} xl={2} sx={styles.gridItem}>
+            <Link to={`/member/${member.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <img
+                src={`https://image.tmdb.org/t/p/w200${member.profile_path}`}
+                alt={member.name}
+                style={styles.image}
+              />
+              <Typography variant="body1" component="p">
+                <strong>{member.name}</strong> as {member.character}
+              </Typography>
+            </Link>
           </Grid>
         ))}
       </Grid>
 
-      <h2>Crew</h2>
-      <h3>Directing</h3>
-      <ul>
-        {directingCrew.map((member) => (
-          <li key={member.id}>
-            <strong>{member.name}</strong> - {member.job}
-          </li>
-        ))}
-      </ul>
+      <Typography variant="h5" component="h3" gutterBottom>
+        Crew
+      </Typography>
+      <Grid container spacing={2} sx={styles.gridContainer}>
+        <Grid item xs={12} sm={6}>
+          <Paper elevation={1} sx={styles.listContainer}>
+            <Typography variant="h6" component="h4" gutterBottom>
+              Directing
+            </Typography>
+            <ul>
+              {directingCrew.map(member => (
+                <li key={member.id}>
+                  <Link to={`/member/${member.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Typography variant="body1" component="p">
+                      <strong>{member.name}</strong> - {member.job}
+                    </Typography>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Paper>
+        </Grid>
 
-      <h3>Other Crew</h3>
-      <ul>
-        {otherCrew.map((member) => (
-          <li key={member.id}>
-            <strong>{member.name}</strong> - {member.job}
-          </li>
-        ))}
-      </ul>
-    </div>
+        <Grid item xs={12} sm={6}>
+          <Paper elevation={1} sx={styles.listContainer}>
+            <Typography variant="h6" component="h4" gutterBottom>
+              Other Crew
+            </Typography>
+            <ul>
+              {otherCrew.map(member => (
+                <li key={member.id}>
+                  <Link to={`/member/${member.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Typography variant="body1" component="p">
+                      <strong>{member.name}</strong> - {member.job}
+                    </Typography>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Paper>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

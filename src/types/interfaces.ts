@@ -188,6 +188,13 @@ export interface DiscoverTVShows {
   results: BaseTVShowProps[];
 }
 
+export interface DiscoverMember {
+  page: number;
+  total_pages: number;
+  total_results: number;
+  results: BaseTVShowProps[];
+}
+
 export interface MovieDetailsProps {
   id: number;
   title: string;

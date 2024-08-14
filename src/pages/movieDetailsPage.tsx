@@ -58,7 +58,7 @@ const MovieDetailsPage: React.FC = () => {
     getMovieCredits(id || "")
   );
 
-  if (isLoadingMovie || isLoadingSimilarMovies) {
+  if (isLoadingMovie || isLoadingSimilarMovies || isLoadingCredits ) {
     return <Spinner />;
   }
 
@@ -68,6 +68,10 @@ const MovieDetailsPage: React.FC = () => {
 
   if (isSimilarMoviesError) {
     return <h1>{(similarMoviesError as Error).message}</h1>;
+  }
+
+  if (isCreditsError) {
+    return <h1>{(creditsError as Error).message}</h1>;
   }
 
   return (
