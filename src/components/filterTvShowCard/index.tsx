@@ -44,15 +44,6 @@ const FilterTvShowCard: React.FC<FilterTvShowsCardProps> = ({
     getTvShowGenres
   );
 
-  // const [genres, setGenres] = useState([{ id: '0', name: "All" }])
-
-  // useEffect(() => {
-  //   getTvShowGenres().then((allGenres) => {
-  //     setGenres([genres[0], ...allGenres]);
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
-
   if (isLoading) {
     return <Spinner />;
   }

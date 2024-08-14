@@ -61,7 +61,7 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ onSave }) => {
   const saveFantasyMovie = () => {
     localStorage.setItem("fantasyMovie", JSON.stringify(fantasyMovie));
     alert("Fantasy movie saved!");
-    onSave(); // Notify the parent component to refresh the displayed movie
+    onSave(); 
   };
 
   return (

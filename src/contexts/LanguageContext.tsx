@@ -44,6 +44,7 @@ const languageMap: Record<string, string> = {
     kn: "Kannada",
     mr: "Marathi",
     ur: "Urdu",
+    tl: "Tagalog",
 };
 
 const LanguageContext = createContext(languageMap);

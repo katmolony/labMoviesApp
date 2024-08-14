@@ -91,6 +91,13 @@ export interface Review {
   movieId: number,
 }
 
+export interface DiscoverSimilarMovies {
+  page: number;	
+  total_pages: number;
+  total_results: number;
+  results: BaseMovieProps[];
+}
+
 //  export type TVFilterOption = "name" | "genre";
 
 export interface BaseTVShowProps {

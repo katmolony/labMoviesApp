@@ -44,9 +44,8 @@ const TVShowCard: React.FC<TvShowCardProps> = ({show, action, averagePopularity}
       ? ((show.popularity / averagePopularity) * 100).toFixed(2)
       : "0.00";
 
-  const maxOverviewLength = 100; // Set maximum length for the overview
+  const maxOverviewLength = 100; // max value of the overview
 
-  // Get the full language name from the languageMap
   const languageName =
     languageMap[show.original_language] || show.original_language;
 
@@ -80,9 +79,9 @@ const TVShowCard: React.FC<TvShowCardProps> = ({show, action, averagePopularity}
         <Typography gutterBottom variant="h6">
           {show.name}
         </Typography>
-        <Typography variant="body2">
+        {/* <Typography variant="body2">
           Popularity: {popularityPercentage}%
-        </Typography>
+        </Typography> */}
         <Typography variant="body2">Language: {languageName}</Typography>
         <Typography variant="body2" color="text.secondary">
           Overview: {truncateText(show.overview, maxOverviewLength)}

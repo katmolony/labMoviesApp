@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites';
 import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
+import useSorting from "../hooks/useSorting";
 
 const titleFiltering = {
   name: "title",
@@ -22,7 +23,7 @@ const genreFiltering = {
 };
 
 const HomePage: React.FC = () => {
-  const [sortOption, setSortOption] = useState<string>("popularity");
+  const { sortOption, setSortOption, sortedData } = useSorting("vote_average");
 
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("discover", getMovies);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
@@ -84,7 +85,6 @@ const HomePage: React.FC = () => {
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
         sortOption={sortOption}
-        onSortOptionChange={changeSortOption}
       />
     </>
   );

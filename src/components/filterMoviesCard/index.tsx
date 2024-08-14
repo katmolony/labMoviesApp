@@ -14,11 +14,8 @@ import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from "../spinner";
 
-// Ensure these values match those used in HomePage
-const SORT_OPTIONS = {
-  TITLE: "title",
-  RELEASE_DATE: "release_date",
-  POPULARITY: "popularity",
+const sortingOptions = {
+  voteAverage: "Vote Average"
 };
 
 const styles = {
@@ -67,8 +64,8 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
     onUserInput("genre", e.target.value);
   };
 
-  const handleSortChange = (e: SelectChangeEvent) => {
-    onUserInput("sort", e.target.value);
+  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    onUserInput("sortOption", event.target.value);
   };
 
   return (
@@ -119,10 +116,8 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
               value={sortOption}
               onChange={handleSortChange}
             >
-              <MenuItem value={SORT_OPTIONS.TITLE}>Title</MenuItem>
-              <MenuItem value={SORT_OPTIONS.RELEASE_DATE}>Release Date</MenuItem>
-              <MenuItem value={SORT_OPTIONS.POPULARITY}>Popularity</MenuItem>
-              {/* Ensure these values match what is being used */}
+
+              <MenuItem value={sortingOptions.voteAverage}>Vote Average</MenuItem>
             </Select>
           </FormControl>
         </CardContent>
