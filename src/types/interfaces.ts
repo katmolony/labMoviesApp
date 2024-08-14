@@ -98,6 +98,13 @@ export interface DiscoverSimilarMovies {
   results: BaseMovieProps[];
 }
 
+export interface MovieCredits {
+  page: number;	
+  total_pages: number;
+  total_results: number;
+  results: BaseMovieProps[];
+}
+
 //  export type TVFilterOption = "name" | "genre";
 
 export interface BaseTVShowProps {

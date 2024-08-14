@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import TemplateContentPage from "../components/templateContentPage";
-import { getMovie, getSimilarMovies } from "../api/tmdb-api";
+import { getMovie, getSimilarMovies, getMovieCredits } from "../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import {
@@ -9,10 +9,14 @@ import {
   BaseMovieProps,
   BaseMovieListProps,
   DiscoverSimilarMovies,
+  MovieCredits
 } from "../types/interfaces";
 import MovieDetails from "../components/movieDetails";
 import MovieList from "../components/movieList";
 import PageTemplate from "../components/templateMovieListPage";
+import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
+import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
+import MovieCreditsList from "../components/movieCredits";
 
 interface MovieDetailsWithType extends MovieDetailsProps {
   type: "movie";
@@ -44,7 +48,15 @@ const MovieDetailsPage: React.FC = () => {
     getSimilarMovies(id || "")
   );
 
-  // const { data: similarMovies, error: similarMoviesError, isLoading: isLoadingSimilarMovies, isError: isSimilarMoviesError }  = useQuery<DiscoverSimilarMovies, Error>("discoverSimilar", getSimilarMovies);
+  // Fetch movie credits (cast)
+  const {
+    data: credits,
+    error: creditsError,
+    isLoading: isLoadingCredits,
+    isError: isCreditsError,
+  } = useQuery<MovieCredits, Error>(["credits", id], () =>
+    getMovieCredits(id || "")
+  );
 
   if (isLoadingMovie || isLoadingSimilarMovies) {
     return <Spinner />;
@@ -63,19 +75,19 @@ const MovieDetailsPage: React.FC = () => {
       {movie ? (
         <TemplateContentPage content={movie}>
           <MovieDetails {...movie} />
-
-      {similarMovies && (
-        <PageTemplate
-          title="Similar Movies"
-          movies={similarMovies.results}
-          action={(movie: BaseMovieProps) => (
-            <>
-              {/* <AddToFavouritesIcon {...movie} />
-                          <AddToMustWatchIcon {...movie} /> */}
-            </>
+          <MovieCreditsList movieData={credits} />
+          {similarMovies && (
+            <PageTemplate
+              title="Similar Movies"
+              movies={similarMovies.results}
+              action={(movie: BaseMovieProps) => (
+                <>
+                  <AddToFavouritesIcon {...movie} />
+                  <AddToMustWatchIcon {...movie} />
+                </>
+              )}
+            />
           )}
-        />
-      )}
         </TemplateContentPage>
       ) : (
         <p>Waiting for movie details</p>
