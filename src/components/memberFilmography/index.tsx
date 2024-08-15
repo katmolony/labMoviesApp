@@ -2,9 +2,12 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { DiscoverMemberCredits } from "../../types/interfaces";
+import { DiscoverMemberCredits, CastCredit } from "../../types/interfaces";
 import AddToFavouritesIcon from "../cardIcons/addToFavourites";
 import AddToMustWatchIcon from "../cardIcons/addToMustWatch";
+import { Link } from "react-router-dom";
+import { Button, Box } from "@mui/material";
+
 interface FilmographyProps {
   credits: DiscoverMemberCredits;
 }
@@ -17,7 +20,7 @@ const Filmography: React.FC<FilmographyProps> = ({ credits }) => {
       </Typography>
       <Grid container spacing={3}>
         {credits?.cast?.length > 0 ? (
-          credits.cast.map((credit) => (
+          credits.cast.map((credit: CastCredit) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={credit.id}>
               <Paper elevation={1} sx={{ padding: 2 }}>
                 <img
@@ -40,13 +43,19 @@ const Filmography: React.FC<FilmographyProps> = ({ credits }) => {
                 <Typography variant="body2" color="textSecondary">
                   {credit.overview}
                 </Typography>
-                {/* Action buttons */}
                 <Grid container spacing={1} sx={{ marginTop: 2 }}>
                   <Grid item>
                     <AddToFavouritesIcon {...credit} />
                   </Grid>
                   <Grid item>
                     <AddToMustWatchIcon {...credit} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Box display="flex" justifyContent="flex-start" mt={2}>
+                      <Button variant="outlined" size="medium" color="primary" component={Link} to={`/movies/${credit.id}`}>
+                        More Info ...
+                      </Button>
+                    </Box>
                   </Grid>
                 </Grid>
               </Paper>

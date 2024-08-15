@@ -69,6 +69,26 @@ export interface GenreData {
   }[];
 }
 
+export interface CrewMember {
+  id: number;
+  name: string;
+  job: string;
+  department: string;
+}
+
+export interface CastMember {
+  id: number;
+  name: string;
+  character: string;
+  known_for_department: string;
+  profile_path: string | null;
+}
+
+export interface MovieData {
+  cast: CastMember[];
+  crew: CrewMember[];
+}
+
 export interface DiscoverMovies {
   page: number;	
   total_pages: number;
@@ -105,14 +125,14 @@ export interface MovieCredits {
   results: BaseMovieProps[];
 }
 
-export interface DiscoverMemberCredits {
-  page: number;	
-  total_pages: number;
-  total_results: number;
-  results: BaseMovieProps[];
+export interface CastCredit extends BaseMovieProps {
+  character:string
 }
 
-//  export type TVFilterOption = "name" | "genre";
+export interface DiscoverMemberCredits {
+  cast: CastCredit[];
+  crew: CastCredit[];
+}
 
 export interface BaseTVShowProps {
   adult: boolean;
@@ -195,11 +215,28 @@ export interface DiscoverTVShows {
   results: BaseTVShowProps[];
 }
 
+export interface MemberDetails {
+  adult: boolean;
+  also_known_as: string[];
+  biography: string;
+  birthday: string;
+  deathday: string | null;
+  gender: number;
+  homepage: string | null;
+  id: number;
+  imdb_id: string;
+  known_for_department: string;
+  name: string;
+  place_of_birth: string;
+  popularity: number;
+  profile_path: string;
+}
+
 export interface DiscoverMember {
   page: number;
   total_pages: number;
   total_results: number;
-  results: BaseTVShowProps[];
+  results: MemberDetails[];
 }
 
 export interface MovieDetailsProps {

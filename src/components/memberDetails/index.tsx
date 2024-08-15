@@ -2,13 +2,13 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { DiscoverMember } from "../../types/interfaces";
+import { MemberDetails } from "../../types/interfaces";
 
 interface MemberDetailsProps {
-  member: DiscoverMember;
+  member: MemberDetails; 
 }
 
-const MemberDetails: React.FC<MemberDetailsProps> = ({ member }) => {
+const MemberDetailsComponent: React.FC<MemberDetailsProps> = ({ member }) => {
   return (
     <Paper elevation={3} sx={{ padding: 3, marginTop: 3 }}>
       <Grid container spacing={3}>
@@ -65,4 +65,4 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ member }) => {
   );
 };
 
-export default MemberDetails;
+export default MemberDetailsComponent;

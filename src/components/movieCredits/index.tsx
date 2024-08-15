@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { Link } from 'react-router-dom';
+import { MovieData } from '../../types/interfaces';
 
 const styles = {
   gridContainer: {
@@ -24,7 +25,11 @@ const styles = {
   },
 };
 
-const MovieCreditsList = ({ movieData }) => {
+interface MovieCreditsListProps {
+  movieData: MovieData;
+}
+
+const MovieCreditsList: React.FC<MovieCreditsListProps> = ({ movieData }) => {
   const cast = movieData.cast || [];
   const crew = movieData.crew || [];
 

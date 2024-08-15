@@ -9,7 +9,7 @@ import { DiscoverMember, DiscoverMemberCredits } from "../types/interfaces";
 import MemberDetails from "../components/memberDetails";
 import Filmography from "../components/memberFilmography";
 
-const MemberDetailPage = () => {
+const MemberDetailPage: React.FC = () => {
   const { id } = useParams();
 
   const {
