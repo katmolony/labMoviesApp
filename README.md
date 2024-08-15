@@ -32,24 +32,24 @@ A React application that pulls data from The Movie Database (TMDb) API to displa
 
 2. **Install dependencies**
 
-  ```bash
-    npm install
+    ```bash
+     npm install
 
 3. **Set up environment variables**
 
   Create a .env file in the root of the project and add your TMDb API key:
 
-  ```plaintext
+    ```plaintext
     REACT_APP_TMDB_API_KEY=your_tmdb_api_key_here
 
 4. **Start the development server**
 
-  ```bash
+    ```bash
     npm start
 
   The app will be available at http://localhost:3000.
 
- ## Usage
+## Usage
 - **Home Page**: Displays featured movies and TV shows.
 - **Movies Page**: Browse and search for movies.
 - **TV Shows Page**: Browse and search for TV shows.
