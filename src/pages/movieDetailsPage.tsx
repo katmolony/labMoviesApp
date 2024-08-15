@@ -96,19 +96,6 @@ const MovieDetailsPage: React.FC = () => {
       ) : (
         <p>Waiting for movie details</p>
       )}
-
-      {similarMovies && (
-        <PageTemplate
-          title="Similar Movies"
-          movies={similarMovies.results}
-          action={(movie: BaseMovieProps) => (
-            <>
-              {/* <AddToFavouritesIcon {...movie} />
-                          <AddToMustWatchIcon {...movie} /> */}
-            </>
-          )}
-        />
-      )}
     </>
   );
 };
