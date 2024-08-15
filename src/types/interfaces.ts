@@ -105,6 +105,13 @@ export interface MovieCredits {
   results: BaseMovieProps[];
 }
 
+export interface DiscoverMemberCredits {
+  page: number;	
+  total_pages: number;
+  total_results: number;
+  results: BaseMovieProps[];
+}
+
 //  export type TVFilterOption = "name" | "genre";
 
 export interface BaseTVShowProps {
