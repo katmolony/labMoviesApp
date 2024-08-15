@@ -65,20 +65,31 @@ A React application that pulls data from The Movie Database (TMDb) API to displa
 #### Movies
 
 Get popular movies: GET /movie/popular
+Get most popular movies: GET /movie/top_rated
 Get movie details: GET /movie/{movie_id}
 Search for movies: GET /search/movie
+Get genres: GET /genre/movie/list
+Get similar movies: GET /movie/{movie_id}/similar
+Get movie credits: GET /movie/{movie_id}/credits
+Get upcoming movies: GET /movie/upcoming
+Get movie images: GET /movie/{movie_id}/images
+Get movie reviews: GET /movie/{movie_id}/reviews
+Get movies by release date: GET /discover/movie
 
 #### TV Shows
 
 Get popular TV shows: GET /tv/popular
 Get TV show details: GET /tv/{tv_id}
 Search for TV shows: GET /search/tv
+Get TV show genres: GET /genre/tv/list
+Get TV show images: GET /tv/{tv_id}/images
+Get TV show reviews: GET /tv/{tv_id}/reviews
 
 #### People
 
 Get popular people: GET /person/popular
 Get person details: GET /person/{person_id}
-Search for people: GET /search/person
+Get person movie credits: GET /person/{person_id}/movie_credits
 
 ### Code Overview
 
