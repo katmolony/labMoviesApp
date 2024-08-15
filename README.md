@@ -37,10 +37,10 @@ A React application that pulls data from The Movie Database (TMDb) API to displa
 
 3. **Set up environment variables**
 
-  Create a .env file in the root of the project and add your TMDb API key:
-
-    ```plaintext
-    REACT_APP_TMDB_API_KEY=your_tmdb_api_key_here
+    Create a .env file in the root of the project and add your TMDb API key:
+    
+      ```plaintext
+      REACT_APP_TMDB_API_KEY=your_tmdb_api_key_here
 
 4. **Start the development server**
 
